@@ -3,3 +3,13 @@
 *.o
 *.d
 DDS/Debug/uCosII/Source/os_mem.su
+DDS/Debug/uCosII/Source/os_tmr.su
+*.su
+*.list
+*.bin
+*.elf
+*.map
+*.launch
+*.cfg
+DDS/Debug/makefile
+*.txt

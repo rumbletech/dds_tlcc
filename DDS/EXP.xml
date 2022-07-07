@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+  <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+    <language id="org.eclipse.cdt.core.assembly" name="s,S">
+      <includepath workspace_path="true">/${ProjName}/Inc/Core</includepath>
+      <includepath workspace_path="true">/${ProjName}/Inc/Core/Drivers/Inc</includepath>
+      <includepath workspace_path="true">/${ProjName}/Devices/MAX7219/Inc</includepath>
+      <includepath workspace_path="true">/${ProjName}/Devices/MAX7219/Src</includepath>
+      <includepath workspace_path="true">/${ProjName}/Src/Devices/MAX7219/Inc</includepath>
+    </language>
+    <language id="org.eclipse.cdt.core.gcc" name="C Source File">
+      <includepath>Inc</includepath>
+      <includepath workspace_path="true">/${ProjName}/Src</includepath>
+      <includepath workspace_path="true">/${ProjName}/Inc/Core</includepath>
+      <includepath workspace_path="true">/${ProjName}/Inc/Core/Drivers/Inc</includepath>
+      <includepath workspace_path="true">/${ProjName}/Devices/MAX7219/Inc</includepath>
+      <includepath workspace_path="true">/${ProjName}/Devices/MAX7219/Src</includepath>
+      <includepath workspace_path="true">/${ProjName}/Src/Devices/MAX7219/Inc</includepath>
+    </language>
+    <language name="Object File"/>
+  </section>
+  <section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+    <language id="org.eclipse.cdt.core.assembly" name="s,S">
+      <macro>
+        <name>DEBUG</name>
+        <value/>
+      </macro>
+    </language>
+    <language id="org.eclipse.cdt.core.gcc" name="C Source File">
+      <macro>
+        <name>DEBUG</name>
+        <value/>
+      </macro>
+      <macro>
+        <name>STM32F401xC</name>
+        <value/>
+      </macro>
+      <macro>
+        <name>STM32F401CCUx</name>
+        <value/>
+      </macro>
+      <macro>
+        <name>STM32</name>
+        <value/>
+      </macro>
+      <macro>
+        <name>STM32F4</name>
+        <value/>
+      </macro>
+    </language>
+    <language name="Object File"/>
+  </section>
+</cdtprojectproperties>

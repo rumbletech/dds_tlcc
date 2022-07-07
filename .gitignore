@@ -1,0 +1,5 @@
+
+*.mk
+*.o
+*.d
+DDS/Debug/uCosII/Source/os_mem.su

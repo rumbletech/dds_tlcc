@@ -1,0 +1,646 @@
+/*
+ * MPR121.h
+ *
+ *  Created on: Jul 1, 2022
+ *      Author: Garmoosh
+ */
+
+#ifndef DEVICES_MPR121_INC_D_MPR121_H_
+#define DEVICES_MPR121_INC_D_MPR121_H_
+
+
+#include "mHal.h"
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+#define MPR121_ADDRESS 0X5A
+#define MPR121_I2C I2C1
+#define MPR121_IRQN_PORT GPIOB
+#define MPR121_IRQN_NUM  5UL
+#define MPR121_SUPPLY_VOLTAGE 3.6
+
+//#define USE_GLOBAL_CDC
+//#define USE_GLOBAL_CDT
+
+#define MPR121_USE_AUTO_CONFIG
+//#undef MPR121_USE_AUTO_CONFIG
+
+#define MPR121_NAKED_CONFIG
+//#undef MPR121_NAKED_CONFIG
+
+/* REGISTER ADDRESSES */
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+#define MPR121_NUM_REGS 0X80
+#define MPR121_ELE_TS_L_RADDR 0X00
+#define MPR121_ELE_TS_H_RADDR 0X01
+#define MPR121_ELE_OOR_L_RADDR 0X02
+#define MPR121_ELE_OOR_H_RADDR 0X03
+#define MPR121_ELE0_FDATA_L_RADDR 0X04
+#define MPR121_ELE0_FDATA_H_RADDR 0X05
+#define MPR121_ELE1_FDATA_L_RADDR 0X06
+#define MPR121_ELE1_FDATA_H_RADDR 0X07
+#define MPR121_ELE2_FDATA_L_RADDR 0X08
+#define MPR121_ELE2_FDATA_H_RADDR 0X09
+#define MPR121_ELE3_FDATA_L_RADDR 0X0A
+#define MPR121_ELE3_FDATA_H_RADDR 0X0B
+#define MPR121_ELE4_FDATA_L_RADDR 0X0C
+#define MPR121_ELE4_FDATA_H_RADDR 0X0D
+#define MPR121_ELE5_FDATA_L_RADDR 0X0E
+#define MPR121_ELE5_FDATA_H_RADDR 0X0F
+#define MPR121_ELE6_FDATA_L_RADDR 0X10
+#define MPR121_ELE6_FDATA_H_RADDR 0X11
+#define MPR121_ELE7_FDATA_L_RADDR 0X12
+#define MPR121_ELE7_FDATA_H_RADDR 0X13
+#define MPR121_ELE8_FDATA_L_RADDR 0X14
+#define MPR121_ELE8_FDATA_H_RADDR 0X15
+#define MPR121_ELE9_FDATA_L_RADDR 0X16
+#define MPR121_ELE9_FDATA_H_RADDR 0X17
+#define MPR121_ELE10_FDATA_L_RADDR 0X18
+#define MPR121_ELE10_FDATA_H_RADDR 0X19
+#define MPR121_ELE11_FDATA_L_RADDR 0X1A
+#define MPR121_ELE11_FDATA_H_RADDR 0X1B
+#define MPR121_ELEPRX_FDATA_L_RADDR 0X1C
+#define MPR121_ELEPRX_FDATA_H_RADDR 0X1D
+#define MPR121_ELE0_BASEV_RADDR 0X1E
+#define MPR121_ELE1_BASEV_RADDR 0X1F
+#define MPR121_ELE2_BASEV_RADDR 0X20
+#define MPR121_ELE3_BASEV_RADDR 0X21
+#define MPR121_ELE4_BASEV_RADDR 0X22
+#define MPR121_ELE5_BASEV_RADDR 0X23
+#define MPR121_ELE6_BASEV_RADDR 0X24
+#define MPR121_ELE7_BASEV_RADDR 0X25
+#define MPR121_ELE8_BASEV_RADDR 0X26
+#define MPR121_ELE9_BASEV_RADDR 0X27
+#define MPR121_ELE10_BASEV_RADDR 0X28
+#define MPR121_ELE11_BASEV_RADDR 0X29
+#define MPR121_ELEPRX_BASEV_RADDR 0X2A
+#define MPR121_MHD_RISE_RADDR 0X2B
+#define MPR121_NHD_RISE_RADDR 0X2C
+#define MPR121_NCL_RISE_RADDR 0X2D
+#define MPR121_FDL_RISE_RADDR 0X2E
+#define MPR121_MHD_FALL_RADDR 0X2F
+#define MPR121_NHD_FALL_RADDR 0X30
+#define MPR121_NCL_FALL_RADDR 0X31
+#define MPR121_FDL_FALL_RADDR 0X32
+#define MPR121_NHD_TOUCHD_RADDR 0X33
+#define MPR121_NCL_TOUCHD_RADDR 0X34
+#define MPR121_FDL_TOUCHD_RADDR 0X35
+#define MPR121_ELEPRX_MHD_RISE_RADDR 0X36
+#define MPR121_ELEPRX_NHD_RISE_RADDR 0X37
+#define MPR121_ELEPRX_NCL_RISE_RADDR 0X38
+#define MPR121_ELEPRX_FDL_RISE_RADDR 0X39
+#define MPR121_ELEPRX_MHD_FALL_RADDR 0X3A
+#define MPR121_ELEPRX_NHD_FALL_RADDR 0X3B
+#define MPR121_ELEPRX_NCL_FALL_RADDR 0X3C
+#define MPR121_ELEPRX_FDL_FALL_RADDR 0X3D
+#define MPR121_ELEPRX_NHD_TOUCHD_RADDR 0X3E
+#define MPR121_ELEPRX_NCL_TOUCHD_RADDR 0X3F
+#define MPR121_ELEPRX_FDL_TOUCHD_RADDR 0X40
+#define MPR121_ELE0_TOUCH_THRSH_RADDR 0X41
+#define MPR121_ELE0_RELEASE_THRSH_RADDR 0X42
+#define MPR121_ELE1_TOUCH_THRSH_RADDR 0X43
+#define MPR121_ELE1_RELEASE_THRSH_RADDR 0X44
+#define MPR121_ELE2_TOUCH_THRSH_RADDR 0X45
+#define MPR121_ELE2_RELEASE_THRSH_RADDR 0X46
+#define MPR121_ELE3_TOUCH_THRSH_RADDR 0X47
+#define MPR121_ELE3_RELEASE_THRSH_RADDR 0X48
+#define MPR121_ELE4_TOUCH_THRSH_RADDR 0X49
+#define MPR121_ELE4_RELEASE_THRSH_RADDR 0X4A
+#define MPR121_ELE5_TOUCH_THRSH_RADDR 0X4B
+#define MPR121_ELE5_RELEASE_THRSH_RADDR 0X4C
+#define MPR121_ELE6_TOUCH_THRSH_RADDR 0X4D
+#define MPR121_ELE6_RELEASE_THRSH_RADDR 0X4E
+#define MPR121_ELE7_TOUCH_THRSH_RADDR 0X4F
+#define MPR121_ELE7_RELEASE_THRSH_RADDR 0X50
+#define MPR121_ELE8_TOUCH_THRSH_RADDR 0X51
+#define MPR121_ELE8_RELEASE_THRSH_RADDR 0X52
+#define MPR121_ELE9_TOUCH_THRSH_RADDR 0X53
+#define MPR121_ELE9_RELEASE_THRSH_RADDR 0X54
+#define MPR121_ELE10_TOUCH_THRSH_RADDR 0X55
+#define MPR121_ELE10_RELEASE_THRSH_RADDR 0X56
+#define MPR121_ELE11_TOUCH_THRSH_RADDR 0X57
+#define MPR121_ELE11_RELEASE_THRSH_RADDR 0X58
+#define MPR121_ELEPRX_TOUCH_THRSH_RADDR 0X59
+#define MPR121_ELEPRX_RELEASE_THRSH_RADDR 0X5A
+#define MPR121_ELE_DEBOUNCE_RADDR 0X5B
+#define MPR121_AFE_CONFIG1_RADDR 0X5C
+#define MPR121_AFE_CONFIG2_RADDR 0X5D
+#define MPR121_ECR_RADDR 0X5E
+#define MPR121_ELE0_CURRENT_RADDR 0X5F
+#define MPR121_ELE1_CURRENT_RADDR 0X60
+#define MPR121_ELE2_CURRENT_RADDR 0X61
+#define MPR121_ELE3_CURRENT_RADDR 0X62
+#define MPR121_ELE4_CURRENT_RADDR 0X63
+#define MPR121_ELE5_CURRENT_RADDR 0X64
+#define MPR121_ELE6_CURRENT_RADDR 0X65
+#define MPR121_ELE7_CURRENT_RADDR 0X66
+#define MPR121_ELE8_CURRENT_RADDR 0X67
+#define MPR121_ELE9_CURRENT_RADDR 0X68
+#define MPR121_ELE10_CURRENT_RADDR 0X69
+#define MPR121_ELE11_CURRENT_RADDR 0X6A
+#define MPR121_ELEPRX_CURRENT_RADDR 0X6B
+#define MPR121_ELE01_CHARGET_RADDR 0X6C
+#define MPR121_ELE23_CHARGET_RADDR 0X6D
+#define MPR121_ELE45_CHARGET_RADDR 0X6E
+#define MPR121_ELE67_CHARGET_RADDR 0X6F
+#define MPR121_ELE89_CHARGET_RADDR 0X70
+#define MPR121_ELE1011_CHARGET_RADDR 0X71
+#define MPR121_ELEPRX_CHARGET_RADDR 0X72
+#define MPR121_GPIO_CTRL0_RADDR 0X73
+#define MPR121_GPIO_CTRL1_RADDR 0X74
+#define MPR121_GPIO_DATA_RADDR 0X75
+#define MPR121_GPIO_DIR_RADDR 0X76
+#define MPR121_GPIO_ENABLE_RADDR 0X77
+#define MPR121_GPIO_DATA_SET_RADDR 0X78
+#define MPR121_GPIO_DATA_CLEAR_RADDR 0X79
+#define MPR121_GPIO_DATA_TOGGLE_RADDR 0X7A
+#define MPR121_AUTOCONFIG1_RADDR 0X7B
+#define MPR121_AUTOCONFIG2_RADDR 0X7C
+#define MPR121_AUTOCONFIG_USL_RADDR 0X7D
+#define MPR121_AUTOCONFIG_LSL_RADDR 0X7E
+#define MPR121_AUTOCONFIG_TARGTLVL_RADDR 0X7F
+#define MPR121_SOFT_RESET_RADDR 0X80
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+
+/* AFI CONFIG 1 */
+#define MPR121_AFE_CONFIG1_CDC_Pos 0UL
+#define MPR121_AFE_CONFIG1_CDC_Msk ( 0B111111 << AFE_CONFIG1_CDC_Pos )
+#define MPR121_AFE_CONFIG1_FFI_Pos 6UL
+#define MPR121_AFE_CONFIG1_FFI_Msk ( 0B11 << AFE_CONFIG1_FFI_Pos )
+
+typedef enum {
+
+	MPR121_CDC_DISABLED = 0B000000 ,
+	MPR121_CDC_1UA = 0B000001 ,
+	MPR121_CDC_2UA = 0B000010 ,
+	MPR121_CDC_3UA = 0B000011 ,
+	MPR121_CDC_4UA = 0B000100 ,
+	MPR121_CDC_5UA = 0B000101 ,
+	MPR121_CDC_6UA = 0B000110 ,
+	MPR121_CDC_7UA = 0B000111 ,
+	MPR121_CDC_8UA = 0B01000 ,
+	MPR121_CDC_9UA = 0B001001 ,
+	MPR121_CDC_10UA = 0B001010 ,
+	MPR121_CDC_11UA = 0B001011 ,
+	MPR121_CDC_12UA = 0B001100 ,
+	MPR121_CDC_13UA = 0B001101 ,
+	MPR121_CDC_14UA = 0B001110 ,
+	MPR121_CDC_15UA = 0B001111 ,
+	MPR121_CDC_16UA = 0B010000 ,
+	MPR121_CDC_17UA = 0B010001 ,
+	MPR121_CDC_18UA = 0B010010 ,
+	MPR121_CDC_19UA = 0B010011 ,
+	MPR121_CDC_20UA = 0B010100 ,
+	MPR121_CDC_21UA = 0B010101 ,
+	MPR121_CDC_22UA = 0B010110 ,
+	MPR121_CDC_23UA = 0B010111 ,
+	MPR121_CDC_24UA = 0B011000 ,
+	MPR121_CDC_25UA = 0B011001 ,
+	MPR121_CDC_26UA = 0B011010 ,
+	MPR121_CDC_27UA = 0B011011 ,
+	MPR121_CDC_28UA = 0B011100 ,
+	MPR121_CDC_29UA = 0B011101 ,
+	MPR121_CDC_30UA = 0B011110 ,
+	MPR121_CDC_31UA = 0B011111 ,
+	MPR121_CDC_32UA = 0B100000 ,
+	MPR121_CDC_33UA = 0B100001 ,
+	MPR121_CDC_34UA = 0B100010 ,
+	MPR121_CDC_35UA = 0B100011 ,
+	MPR121_CDC_36UA = 0B100100 ,
+	MPR121_CDC_37UA = 0B100101 ,
+	MPR121_CDC_38UA = 0B100110 ,
+	MPR121_CDC_39UA = 0B100111 ,
+	MPR121_CDC_40UA = 0B101000 ,
+	MPR121_CDC_41UA = 0B101001 ,
+	MPR121_CDC_42UA = 0B101010 ,
+	MPR121_CDC_43UA = 0B101011 ,
+	MPR121_CDC_44UA = 0B101100 ,
+	MPR121_CDC_45UA = 0B101101 ,
+	MPR121_CDC_46UA = 0B101110 ,
+	MPR121_CDC_47UA = 0B101111 ,
+	MPR121_CDC_48UA = 0B110000 ,
+	MPR121_CDC_49UA = 0B110001 ,
+	MPR121_CDC_50UA = 0B110010 ,
+	MPR121_CDC_51UA = 0B110011 ,
+	MPR121_CDC_52UA = 0B110100 ,
+	MPR121_CDC_53UA = 0B110101 ,
+	MPR121_CDC_54UA = 0B110110 ,
+	MPR121_CDC_55UA = 0B110111 ,
+	MPR121_CDC_56UA = 0B111000 ,
+	MPR121_CDC_57UA = 0B111001 ,
+	MPR121_CDC_58UA = 0B111010 ,
+	MPR121_CDC_59UA = 0B111011 ,
+	MPR121_CDC_60UA = 0B111100 ,
+	MPR121_CDC_61UA = 0B111101 ,
+	MPR121_CDC_62UA = 0B111110 ,
+	MPR121_CDC_63UA = 0B111111 ,
+
+
+} MPR121_Charge_Current ;
+
+typedef enum {
+
+	MPR121_FF_SAMPLES_6  = 0B00 ,
+	MPR121_FF_SAMPLES_10 = 0B01 ,
+	MPR121_FF_SAMPLES_18 = 0B10 ,
+	MPR121_FF_SAMPLES_34 = 0B11 ,
+
+
+} MPR121_First_Filter ;
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+/* AFI CONFIG 2 */
+#define MPR121_AFE_CONFIG2_ESI_Pos 0UL
+#define MPR121_AFE_CONFIG2_ESI_Msk ( 0B111 << AFE_CONFIG2_ESI_Pos )
+#define MPR121_AFE_CONFIG2_SFI_Pos 3UL
+#define MPR121_AFE_CONFIG2_SFI_Msk ( 0B11 << AFE_CONFIG_SFI_Pos )
+#define MPR121_AFE_CONFIG2_CDT_Pos 5UL
+#define MPR121_AFE_CONFIG2_CDT_Msk ( 0B111 << AFE_CONFIG_CDT_Pos )
+
+typedef enum {
+
+	MPR121_SAMPLE_INTV_1MS = 0B000 ,
+	MPR121_SAMPLE_INTV_2MS = 0B001 ,
+	MPR121_SAMPLE_INTV_4MS = 0B010 ,
+	MPR121_SAMPLE_INTV_8MS = 0B011 ,
+	MPR121_SAMPLE_INTV_16MS = 0B100 ,
+	MPR121_SAMPLE_INTV_32MS = 0B101 ,
+	MPR121_SAMPLE_INTV_64MS = 0B110 ,
+	MPR121_SAMPLE_INTV_128MS = 0B111 ,
+
+} MPR121_Sample_Interval ;
+
+typedef enum {
+
+	MPR121_SF_SAMPLES_4  = 0B00 ,
+	MPR121_SF_SAMPLES_6 = 0B01 ,
+	MPR121_SF_SAMPLES_10 = 0B10 ,
+	MPR121_SF_SAMPLES_18 = 0B11 ,
+
+
+} MPR121_Second_Filter ;
+
+
+typedef enum {
+
+	MPR121_CDT_DISABLE  = 0B000 ,
+	MPR121_CDT_0P5US = 0B001 ,
+	MPR121_CDT_1US = 0B010 ,
+	MPR121_CDT_2US = 0B011 ,
+	MPR121_CDT_4US = 0B100 ,
+	MPR121_CDT_8US = 0B101 ,
+	MPR121_CDT_16US = 0B110 ,
+	MPR121_CDT_32US = 0B111 ,
+
+
+} MPR121_Charge_Time ;
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+/* ECR Register */
+
+#define MPR121_ECR_ELE_Pos 0UL
+#define MPR121_ECR_ELE_Msk ( 0B1111 << MPR121_ECR_ELE_Pos )
+#define MPR121_ECR_ELEPROX_Pos 4UL
+#define MPR121_ECR_ELEPROX_Msk ( 0B11 << MPR121_ECR_ELEPROX_Pos )
+#define MPR121_ECR_CL_Pos 6UL
+#define MPR121_ECR_CL_Msk ( 0B11 << MPR121_ECR_CL_Pos )
+
+typedef enum {
+
+	MPR121_BLT_EN_NOINIT = 0B00 ,
+	MPR121_BLT_DISABLE = 0B01 ,
+	MPR121_BLT_EN_INIT_5MSB = 0B10  ,
+	MPR121_BLT_EN_INIT_10MSB = 0B11 ,
+
+} MPR121_BaseLine_Tracking ;
+
+
+typedef enum {
+
+	MPR121_ELE_DISABLE = 0B0000 ,
+	MPR121_ELE0_ENABLE = 0B0001 ,
+	MPR121_ELE0_TO_ELE1_ENABLE = 0B0010 ,
+	MPR121_ELE0_TO_ELE2_ENABLE = 0B0011 ,
+	MPR121_ELE0_TO_ELE3_ENABLE = 0B0100 ,
+	MPR121_ELE0_TO_ELE4_ENABLE = 0B0101 ,
+	MPR121_ELE0_TO_ELE5_ENABLE = 0B0110 ,
+	MPR121_ELE0_TO_ELE6_ENABLE = 0B0111 ,
+	MPR121_ELE0_TO_ELE7_ENABLE = 0B1000 ,
+	MPR121_ELE0_TO_ELE8_ENABLE = 0B1001 ,
+	MPR121_ELE0_TO_ELE9_ENABLE = 0B1010 ,
+	MPR121_ELE0_TO_ELE10_ENABLE = 0B1011 ,
+	MPR121_ELE0_TO_ELE11_ENABLE = 0B1111 ,
+
+} MPR121_Electrode_Enable ;
+
+
+typedef enum {
+
+	MPR121_ELEPRX_DISABLE = 0B00 ,
+	MPR121_ELEPRX_ELE0_TO_ELE1 = 0B01 ,
+	MPR121_ELEPRX_ELE0_TO_ELE3 = 0B10 ,
+	MPR121_ELEPRX_ELE0_TO_ELE11 = 0B11 ,
+
+
+} MPR121_Proximity_Enable ;
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+/*MPR121_AUTOCONFIG1 */
+
+#define MPR121_AUTOCONFIG1_ACE_Pos 0UL
+#define MPR121_AUTOCONFIG1_ACE_Msk ( 1UL << MPR121_AUTOCONFIG1_ACE_Pos )
+#define MPR121_AUTOCONFIG1_ARE_Pos 1UL
+#define MPR121_AUTOCONFIG1_ARE_Msk ( 1UL <<  MPR121_AUTOCONFIG1_ARE_Pos)
+#define MPR121_AUTOCONFIG1_BVA_Pos 2UL
+#define MPR121_AUTOCONFIG1_BVA_Msk ( 0B11 << MPR121_AUTOCONFIG1_BVA_Pos )
+#define MPR121_AUTOCONFIG1_RETRY_Pos 4UL
+#define MPR121_AUTOCONFIG1_RETRY_Msk ( 0B11 << MPR121_AUTOCONFIG1_RETRY_Pos )
+#define MPR121_AUTOCONFIG1_AFES_Pos 6UL
+#define MPR121_AUTOCONFIG1_AFES_Msk ( 0B11 << MPR121_AUTOCONFIG1_AFES_Pos )
+
+typedef enum {
+
+	MPR121_AUTOCONFIG_RETRY_NORETRY = 0B00 ,
+	MPR121_AUTOCONFIG_RETRY_2TIMES  = 0B01 ,
+	MPR121_AUTOCONFIG_RETRY_4TIMES  = 0B10 ,
+	MPR121_AUTOCONFIG_RETRY_8TIMES  = 0B11 ,
+
+
+
+} MPR121_AutoConfig_Retry ;
+
+typedef enum {
+
+	MPR121_AUTOCONFIG_BLV_NOCHANGE_= 0B00 ,
+	MPR121_AUTOCONFIG_BLV_ZERO  = 0B01 ,
+	MPR121_AUTOCONFIG_BLV_ACFVAL_5MSB  = 0B10 ,
+	MPR121_AUTOCONFIG_BLV_ACFVAL  = 0B11 ,
+
+
+} MPR121_AutoConfig_BLINEV ;
+
+typedef enum {
+
+	MPR121_AUTOCONFIG_AFES_6SAMPLE   = 0B00 ,
+	MPR121_AUTOCONFIG_AFES_10SAMPLE  = 0B01 ,
+	MPR121_AUTOCONFIG_AFES_18SAMPLE  = 0B10 ,
+	MPR121_AUTOCONFIG_AFES_34SAMPLE  = 0B11 ,
+
+
+} MPR121_AutoConfig_Samples ;
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+/*MPR121_AUTOCONFIG2 */
+
+
+#define MPR121_AUTOCONFIG2_ACFIE_Pos 0UL
+#define MPR121_AUTOCONFIG2_ACFIE_Msk ( 1 << MPR121_AUTOCONFIG2_ACFIE_Pos  )
+#define MPR121_AUTOCONFIG2_ARFIE_Pos 1UL
+#define MPR121_AUTOCONFIG2_ARFIE_Msk ( 1 << MPR121_AUTOCONFIG2_ARFIE_Pos )
+#define MPR121_AUTOCONFIG2_OORIE_Pos 2UL
+#define MPR121_AUTOCONFIG2_OORIE_Msk ( 1 << MPR121_AUTOCONFIG2_OORIE_Pos )
+#define MPR121_AUTOCONFIG2_SCTS_Pos 7UL
+#define MPR121_AUTOCONFIG2_SCTS_Msk ( 1 << MPR121_AUTOCONFIG2_SCTS_Pos )
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+/* GPIO */
+
+typedef enum {
+
+	MPR121_GPIO_IN                  = 0B000 ,
+	MPR121_GPIO_IN_PLLDN            = 0B001 ,
+	MPR121_GPIO_IN_PLLUP            = 0B011 ,
+	MPR121_GPIO_OUT_PP              = 0B100 ,
+	MPR121_GPIO_OUT_OD_ACTIVE_HIGH  = 0B111 ,
+	MPR121_GPIO_OUT_OD_ACTIVE_LOW   = 0B110 ,
+
+
+} MPR121_GPIO_Config ;
+
+
+#define MPR121_GPIO_BIT0_Pos 0UL
+#define MPR121_GPIO_BIT0_Msk ( 1 << MPR121_GPIO_BIT0_Pos )
+#define MPR121_GPIO_BIT1_Pos 1UL
+#define MPR121_GPIO_BIT1_Msk ( 1 << MPR121_GPIO_BIT0_Pos )
+#define MPR121_GPIO_BIT2_Pos 2UL
+#define MPR121_GPIO_BIT2_Msk ( 1 << MPR121_GPIO_BIT0_Pos )
+#define MPR121_GPIO_BIT3_Pos 3UL
+#define MPR121_GPIO_BIT3_Msk ( 1 << MPR121_GPIO_BIT0_Pos )
+#define MPR121_GPIO_BIT4_Pos 4UL
+#define MPR121_GPIO_BIT4_Msk ( 1 << MPR121_GPIO_BIT0_Pos )
+#define MPR121_GPIO_BIT5_Pos 5UL
+#define MPR121_GPIO_BIT5_Msk ( 1 << MPR121_GPIO_BIT0_Pos )
+#define MPR121_GPIO_BIT6_Pos 6UL
+#define MPR121_GPIO_BIT6_Msk ( 1 << MPR121_GPIO_BIT0_Pos )
+#define MPR121_GPIO_BIT7_Pos 7UL
+#define MPR121_GPIO_BIT7_Msk ( 1 << MPR121_GPIO_BIT0_Pos )
+
+
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+/* DEBOUNCE REGISTER */
+
+#define MPR121_DEBOUNCE_DT_Pos 0UL
+#define MPR121_DEBOUNCE_DT_Msk ( 0B111 << MPR121_DEBOUNCE_DT_Pos )
+#define MPR121_DEBOUNCE_DR_Pos 4UL
+#define MPR121_DEBOUNCE_DR_Msk ( 0B111 << MPR121_DEBOUNCE_DR_Pos )
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+/* SOFT RESET */
+
+#define MPR121_SOFT_RESET_W 0X63
+
+/* TOUCH AND RELEASE */
+
+#define MPR121_TOUCH_THRESH_Pos 0 UL
+#define MPR121_TOUCH_THRESH_Msk 0X00FF
+#define MPR121_RELEASE_THRESH_Pos 8 UL
+#define MPR121_RELEASE_THRESH_Msk 0XFF00
+
+/***********************************************************************************************
+ ***********************************************************************************************/
+
+/* Nominal Values */
+
+#define MPR121_USL_NOMINAL  (uint8_t)(((((float)MPR121_SUPPLY_VOLTAGE-0.7)/((float)MPR121_SUPPLY_VOLTAGE))*((float)(256))))
+#define MPR121_LSL_NOMINAL  (uint8_t)((float)MPR121_USL_NOMINAL * 0.65)
+#define MPR121_TL_NOMINAL   (uint8_t)((float)MPR121_USL_NOMINAL * 0.9)
+
+
+#define MPR121_TOUCH_THRESH_NOMINAL 12
+#define MPR121_RELEASE_THRESH_NOMINAL 6
+
+#define MPR121_MHD_NOMINAL 3UL
+#define MPR121_NHD_NOMINAL 3UL
+#define MPR121_NCL_NOMINAL 3UL
+#define MPR121_FDL_NOMINAL 3UL
+
+
+
+
+#define MPR121_TOUCH_DEBOUNCE_NOMINAL 7
+#define MPR121_RELEASE_DEBOUNCE_NOMINAL 7
+
+
+
+
+
+
+
+
+
+
+typedef struct {
+
+
+
+/* Manual Configuration */
+
+uint8_t ele_blv[13] ;
+
+MPR121_Charge_Current ele_cdc[13] ;
+
+MPR121_Charge_Current glob_cdc ;
+
+
+MPR121_Charge_Time ele_cdt[13] ;
+
+MPR121_Charge_Time glob_cdt ;
+
+
+
+
+uint8_t ele_MHD_rising ;
+uint8_t ele_NHD_rising ;
+uint8_t ele_NCL_rising ;
+uint8_t ele_FDL_rising ;
+
+uint8_t ele_MHD_falling ;
+uint8_t ele_NHD_falling ;
+uint8_t ele_NCL_falling ;
+uint8_t ele_FDL_falling ;
+
+uint8_t ele_NHD_touched ;
+uint8_t ele_NCL_touched ;
+uint8_t ele_FDL_touched ;
+
+
+
+uint8_t eleprx_MHD_rising ;
+uint8_t eleprx_NHD_rising ;
+uint8_t eleprx_NCL_rising ;
+uint8_t eleprx_FDL_rising ;
+
+uint8_t eleprx_MHD_falling ;
+uint8_t eleprx_NHD_falling ;
+uint8_t eleprx_NCL_falling ;
+uint8_t eleprx_FDL_falling ;
+
+
+uint8_t eleprx_NHD_touched ;
+uint8_t eleprx_NCL_touched ;
+uint8_t eleprx_FDL_touched ;
+
+
+uint16_t ele_tr_threshhold[13];
+
+
+MPR121_First_Filter ff ;
+MPR121_Second_Filter sf ;
+MPR121_Sample_Interval si;
+
+MPR121_BaseLine_Tracking blten ;
+
+MPR121_GPIO_Config gpio_config[8];
+uint8_t gpio_data ;
+uint8_t gpio_en ;
+
+
+
+
+
+
+
+MPR121_Proximity_Enable prox ;
+MPR121_Electrode_Enable elecen ;
+uint8_t debounce_touch ;
+uint8_t debounce_release ;
+
+
+
+
+flip_switch auto_config_en ;
+MPR121_AutoConfig_BLINEV ac_blv ;
+MPR121_AutoConfig_Retry  ac_retry ;
+MPR121_AutoConfig_Samples ac_nsamples ;
+
+flip_switch skip_cdt_ien ;
+flip_switch out_of_range_ien ;
+flip_switch auto_reconfig_fail_ien ;
+flip_switch auto_config_fail_ien ;
+
+uint8_t USL ;
+uint8_t LSL ;
+uint8_t TL  ;
+
+
+
+
+
+} MPR121_Config_Struct ;
+
+
+
+
+
+/* Nominal Struct */
+
+extern MPR121_Config_Struct MPR121_Default_Struct ;
+
+
+
+/* MACRO FUNCTIONS */
+
+#define GET_TS(ELE_NUM , STATUS_W) ( ( 1UL << ELE_NUM )&(STATUS_W))
+
+
+void MPR121_WriteCommand(  uint8_t* vptr , uint8_t len , uint8_t starting_addr );
+void MPR121_ReadCommand(  uint8_t* vptr , uint8_t len , uint8_t starting_addr );
+void MPR121_Read( uint8_t * ptr );
+uint32_t MPR121_GetStatus( void );
+void MPR121_SoftReset ( void );
+void MPR121_Stop( void );
+void MPR121_Fill ( MPR121_Config_Struct* mpr );
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif /* DEVICES_MPR121_INC_D_MPR121_H_ */

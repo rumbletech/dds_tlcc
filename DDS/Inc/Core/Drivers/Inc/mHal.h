@@ -162,42 +162,43 @@ static inline void  __attribute__((naked))   __fpu_s( void )
 
 
 
+static inline uint16_t mHal_Queue_Len ( mHal_Queue * b )
+{
 
+	if ( b->y_ptr > b->x_ptr )
+		return b->y_ptr - b->x_ptr ;
+	else
+		return QUEUE_BUFF_SIZE - ( b->x_ptr - b->y_ptr ) ;
+
+}
 
  static inline void mHal_Queue_Push ( mHal_Queue * b , uint8_t * d , uint16_t len  )
 {
-	if ( ( QUEUE_BUFF_SIZE - ( b->x_ptr - b->y_ptr ) ) <  len ) {
-		return ;
-	}
-	if ( b->x_ptr + len >= QUEUE_BUFF_SIZE )
+	if ( b->y_ptr > b->x_ptr )
 	{
-		int16_t calc = QUEUE_BUFF_SIZE - b->x_ptr ;
-		len-=calc;
-		for ( ; calc-- ;  )
-		{
-				(b->xb[b->x_ptr++]) = *(d++) ;
+		if ( ( b->y_ptr - b->x_ptr ) < len ) {
+			return;
 		}
-		b->x_ptr %=  QUEUE_BUFF_SIZE ;
 	}
-
-	for ( ; len-- ;  )
-	{
+	else{
+		if ( QUEUE_BUFF_SIZE - ( b->x_ptr - b->y_ptr ) < len ){
+			return ;
+		}
+	}
+	for ( ; len--  && (b->y_ptr != b->x_ptr) ; b->x_ptr %= QUEUE_BUFF_SIZE  )
 		(b->xb[b->x_ptr++]) = *(d++) ;
-	}
+
+
 }
 /* not done */
 static inline int16_t mHal_Queue_Pop ( mHal_Queue * b , uint8_t * d , uint16_t len  )
 {
 	int16_t ret = 0 ;
-	if ( ( b->x_ptr - b->y_ptr ) == 0  ) {
+	if ( abs( b->x_ptr - b->y_ptr ) == 0  ) {
 		return 0  ;
 	}
-	for ( ; len-- && (b->y_ptr != b->x_ptr) ; ret++ , b->x_ptr-- )
-	{
+	for ( ; len-- && (b->y_ptr != b->x_ptr) ; ret++   , b->y_ptr %= QUEUE_BUFF_SIZE )
 		*(d++) = (b->xb[b->y_ptr++]) ;
-	}
-	if ( b->y_ptr == b->x_ptr )
-		b->y_ptr = b->x_ptr = 0 ;
 
 	return ret ;
 }
@@ -312,6 +313,7 @@ static inline  int32_t mHal_Systick_Inc( uint8_t reset )
 #include "mHal_USBD.h"
 #include "mHal_TIM.h"
 #include "mHal_I2C.h"
+#include "mHal_USART.h"
 
 
 

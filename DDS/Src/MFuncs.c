@@ -36,6 +36,55 @@ float FreqW ( uint32_t freq , uint8_t num_prec )
 }
 
 
+
+#ifdef CALC_SINE
+
+/* O(N) Polynomial Calculation */
+double polycalc ( int deg , double x , double* coeffs ) {
+
+    double res = 0 ; coeffs+= deg ;
+    for ( int i = 0  ; i < deg ; res+= *(coeffs) ,res*=x, i++ , coeffs-- ) ;
+
+ return res+*(coeffs);
+
+}
+
+/* Calculate Nth Factorial */
+uint32_t calc_factorial ( uint32_t x ) {
+
+    uint32_t res = 1;
+    for ( ; x ; res*=x , x-- );
+    return res;
+}
+
+/* Sine X Calculation  Using Tayler series expansion */
+
+double calc_sinex ( double x , uint32_t poly_deg ) {
+
+    double a[poly_deg+1] ;
+
+    for ( int32_t i = 0 , c = 1 ; i <= poly_deg ; i++ ) {
+        if ( i%2 == 1 ) {
+            a[i] = (c?(1.0):(-1.0))/(double(calc_factorial(i) )) ;
+            c=!c;
+        }
+        else{
+        a[i] = 0;
+        }
+    }
+
+    return polycalc( poly_deg , x , &a[0] );
+
+
+
+
+}
+
+#endif
+
+
+
+
 void Wave_Gen_IntDisable( void )
 {
 	__NVIC_DisableIRQ(TIM1_UP_TIM10_IRQn);

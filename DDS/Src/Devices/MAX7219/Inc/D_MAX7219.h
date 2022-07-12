@@ -107,7 +107,7 @@ void D_MAX7219_Normal ( void );
 void D_MAX7219_Intensity( uint8_t pwm_val );
 void D_MAX7219_ScanLimit( uint8_t Limit_val );
 void D_MAX7219_WriteNum ( uint32_t Val , uint8_t dp_val );
-void D_MAX7219_WriteDigits ( uint8_t* Digits  );
+void D_MAX7219_WriteDigits ( uint8_t* Digits  , uint8_t code_B );
 void D_MAX7219_Init ( D_MAX7219_Config_Struct * cfgptr );
 
 

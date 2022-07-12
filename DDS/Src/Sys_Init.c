@@ -195,6 +195,54 @@ void D_MPR121_Init( void ) {
 }
 
 
+void USARTX_Init( void )
+{
+
+
+	mHal_USART_Config_Struct USART1_Config_Struct = mHal_USART_FDUPLEX_UART_Struct ;
+
+
+	USART1_Config_Struct.baud_div = mHal_USART_BaudCalc( CPU_FREQ, 115200 , 0UL );
+	USART1_Config_Struct.rxn_ie = Enabled ;
+
+
+	/* GPIO CONFIG */
+
+	RCC->AHB1ENR |= ( RCC_AHB1ENR_GPIOAEN_Msk );
+
+	GPIOA->MODER &= ~ ( 0B11 << GPIO_MODER_MODE9_Pos );
+	GPIOA->MODER &= ~ ( 0B11 << GPIO_MODER_MODE10_Pos );
+
+	GPIOA->OTYPER &= ~( GPIO_OTYPER_OT9_Msk );
+	GPIOA->OTYPER &= ~( GPIO_OTYPER_OT10_Msk );
+
+	GPIOA->OSPEEDR &= ~( 0B11 << GPIO_OSPEEDR_OSPEED9_Pos );
+	GPIOA->OSPEEDR &= ~( 0B11 << GPIO_OSPEEDR_OSPEED10_Pos );
+
+	GPIOA->OSPEEDR |= ( 0B10 << GPIO_OSPEEDR_OSPEED9_Pos );
+	GPIOA->OSPEEDR |= ( 0B10 << GPIO_OSPEEDR_OSPEED10_Pos );
+
+	GPIOA->AFR[1] &= ( 0B1111 << GPIO_AFRH_AFSEL9_Pos );
+	GPIOA->AFR[1] &= ( 0B1111 << GPIO_AFRH_AFSEL10_Pos );
+
+	GPIOA->AFR[1] |= ( 7UL << GPIO_AFRH_AFSEL9_Pos );
+	GPIOA->AFR[1] |= ( 7UL << GPIO_AFRH_AFSEL10_Pos );
+
+	GPIOA->MODER |= ( 0B10 << GPIO_MODER_MODE9_Pos );
+	GPIOA->MODER |= ( 0B10 << GPIO_MODER_MODE10_Pos );
+
+
+	/* Enable USART1 Clock */
+	RCC->APB2ENR |= ( 1 << RCC_APB2ENR_USART1EN_Pos );
+
+
+	mHal_USART_Fill( &USART1_Config_Struct , USART1 );
+
+
+
+}
+
+
 
 void SPIX_Init( void )
 {
@@ -459,6 +507,9 @@ void IntXEnable ( void )
 	/* TIM1 */
 	__NVIC_SetPriority(TIM1_UP_TIM10_IRQn ,NVIC_EncodePriority(PRIO_GROUP, 0UL , 0UL) );
 	__NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+	/*USART1*/
+	__NVIC_SetPriority(USART1_IRQn ,NVIC_EncodePriority(PRIO_GROUP, 2UL , 0UL) );
+	__NVIC_EnableIRQ(USART1_IRQn);
 }
 
 

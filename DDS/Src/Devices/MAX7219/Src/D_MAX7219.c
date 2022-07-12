@@ -57,6 +57,7 @@ void D_MAX7219_ScanLimit( uint8_t Limit_val )
 void D_MAX7219_WriteNum ( uint32_t val , uint8_t dp_val )
 {
 	D_MAX7219_Normal ();
+	D_MAX7219_SendCMD( D_MAX7219_DMODE_ADDR ,  0xFF);
 
 	for ( int32_t i = 0  ; i <  8 ; i++ , val/=10  )
 		D_MAX7219_SendCMD( D_MAX7219_DIG0_ADDR+i ,  (( val == 0 )?(0x0F):val%10)|(dp_val&(1<<i)?(1 << D_MAX7219_CODE_DP_Pos):0) );
@@ -67,8 +68,12 @@ void D_MAX7219_WriteNum ( uint32_t val , uint8_t dp_val )
 }
 
 
-void D_MAX7219_WriteDigits ( uint8_t* Digits  )
+void D_MAX7219_WriteDigits ( uint8_t* Digits  , uint8_t code_B )
 {
+	D_MAX7219_Normal ();
+
+	D_MAX7219_SendCMD( D_MAX7219_DMODE_ADDR ,  code_B  );
+
 	for ( int32_t i = 0  ; i <  8 ; i++  )
 		D_MAX7219_SendCMD( D_MAX7219_DIG0_ADDR+i ,  *(Digits+i) );
 
@@ -78,15 +83,18 @@ void D_MAX7219_WriteDigits ( uint8_t* Digits  )
 
 void D_MAX7219_Init ( D_MAX7219_Config_Struct * cfgptr )
 {
-	D_MAX7219_ShutDown() ;
 	D_MAX7219_Normal ();
+	D_MAX7219_ShutDown() ;
+
 
 	/* Program all Digits */
-	D_MAX7219_WriteDigits(cfgptr->d);
+	D_MAX7219_WriteDigits(cfgptr->d ,  cfgptr->Code_B  );
 
 	D_MAX7219_SendCMD( D_MAX7219_DMODE_ADDR ,  cfgptr->Code_B  );
 	D_MAX7219_SendCMD( D_MAX7219_INTS_ADDR ,  cfgptr->Intensity );
 	D_MAX7219_SendCMD( D_MAX7219_SCAN_ADDR,  cfgptr->Scan_Limit  );
+
+
 
 
 	return ;

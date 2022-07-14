@@ -15,7 +15,7 @@
 /* Avoid Compiler warnings */
 
 extern void main( void );
-extern void Sys_Init( void );
+
 
 /* Linker Variables , should always be acessed as &(var) */
 

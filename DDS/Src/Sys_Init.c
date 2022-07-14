@@ -79,7 +79,7 @@ void RCC_Init( void )
 	    mHal_Flash_Config_Struct Flash_Struct =
 	    {
 
-	    		.dcache_sw   = Enabled ,
+	    		.dcache_sw   = Disabled ,
 				.icache_sw   = Enabled ,
 				.prefetch_sw = Enabled ,
 	    		.fwcycles    = 3UL ,
@@ -158,6 +158,13 @@ void GPIO_Init ( void )
 		.gpio = GPIOB ,
 		.trig = MHAL_EXTI_FALLING_EDGE
 	};
+	mHal_EXTI_Config_Struct EXTI3_Config_Struct =
+	{
+		.exti_ie = Enabled ,
+		.exti_num = MHAL_EXTI3 ,
+		.gpio = GPIOB ,
+		.trig = MHAL_EXTI_RISING_EDGE
+	};
 
 	RCC->AHB1ENR |= ( RCC_AHB1ENR_GPIOBEN_Msk);
 	/* IRQN PIN INPUT WITH PULLUPS */
@@ -165,7 +172,13 @@ void GPIO_Init ( void )
 	GPIOB->PUPDR &= ~ ( GPIO_PUPDR_PUPD5_Msk );
 	GPIOB->PUPDR |= ( 0B01 << GPIO_PUPDR_PUPD5_Pos );
 
+
+	GPIOB->MODER &= ~ ( GPIO_MODER_MODE3_Msk );
+	GPIOB->PUPDR &= ~ ( GPIO_PUPDR_PUPD3_Msk );
+	GPIOB->PUPDR |= ( 0B10 << GPIO_PUPDR_PUPD3_Pos );
+
 	mHal_EXTI_Fill(&EXTI5_Config_Struct);
+	mHal_EXTI_Fill(&EXTI3_Config_Struct);
 
 
 
@@ -202,7 +215,7 @@ void USARTX_Init( void )
 	mHal_USART_Config_Struct USART1_Config_Struct = mHal_USART_FDUPLEX_UART_Struct ;
 
 
-	USART1_Config_Struct.baud_div = mHal_USART_BaudCalc( CPU_FREQ, 115200 , 0UL );
+	USART1_Config_Struct.baud_div = mHal_USART_BaudCalc( CPU_FREQ, 115200  , 0UL );
 	USART1_Config_Struct.rxn_ie = Enabled ;
 
 
@@ -391,7 +404,7 @@ void DAC_Init ( void )
 void TIMX_Init ( void )
 {
 
-
+/*
 	 mHal_TIM_CC_Config_Struct Tim1_OC1_Struct = {
 
 	    		.cc_dma_req_en = Disabled ,
@@ -410,6 +423,7 @@ void TIMX_Init ( void )
 				.inverted_out_pol = ACTIVE_HIGH ,
 
 	    };
+*/
 	    mHal_TIM_Config_Struct  Tim1_Struct  = {
 
 	    		.arr_preload_en = Disabled ,
@@ -504,8 +518,11 @@ void IntXEnable ( void )
 	/* EXTI5 */
 	__NVIC_SetPriority(EXTI9_5_IRQn ,NVIC_EncodePriority(PRIO_GROUP, 1UL , 0UL) );
 	__NVIC_EnableIRQ(EXTI9_5_IRQn);
+	/* EXTI3 */
+	__NVIC_SetPriority(EXTI3_IRQn ,NVIC_EncodePriority(PRIO_GROUP, 0UL , 0UL) );
+	__NVIC_EnableIRQ(EXTI3_IRQn);
 	/* TIM1 */
-	__NVIC_SetPriority(TIM1_UP_TIM10_IRQn ,NVIC_EncodePriority(PRIO_GROUP, 0UL , 0UL) );
+	__NVIC_SetPriority(TIM1_UP_TIM10_IRQn ,NVIC_EncodePriority(PRIO_GROUP, 3UL , 0UL) );
 	__NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
 	/*USART1*/
 	__NVIC_SetPriority(USART1_IRQn ,NVIC_EncodePriority(PRIO_GROUP, 2UL , 0UL) );

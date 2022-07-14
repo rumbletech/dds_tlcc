@@ -1,7 +1,7 @@
 
 #include <stdint.h>
 
-#ifndef SAW_TOOTH_CALC
+#ifndef SAWTOOTH_CALC
 const uint8_t swt_rom[65536] = {
 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 
 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 

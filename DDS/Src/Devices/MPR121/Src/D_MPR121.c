@@ -216,7 +216,7 @@ void MPR121_Fill ( MPR121_Config_Struct* mpr )
 			temp_a[i/2] = (( mpr->ele_cdt[i] ) | ( mpr->ele_cdt[i-1] << 4 ));
 
 	}
-	temp_a[6] = mpr->ele_cdt[13];
+	temp_a[6] = mpr->ele_cdt[12];
 	MPR121_WriteCommand( &temp_a[0] , 7 , MPR121_ELE01_CHARGET_RADDR );
 	//GPIO
 	for ( uint8_t i = 0 ; i < 5 ; i++ )

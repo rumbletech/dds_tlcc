@@ -12,7 +12,7 @@
 
 
 #include "../Inc/mHal_USART.h"
-
+#include <math.h>
 
 mHal_USART_Config_Struct mHal_USART_FDUPLEX_UART_Struct = {
 
@@ -82,7 +82,7 @@ uint32_t mHal_USART_Receive( uint8_t* dptr , int16_t len  ,USART_TypeDef* usart 
 	for ( ; len-- ; )
 	{
 		while( !(usart->SR & (USART_SR_RXNE_Msk)) );
-		 *(dptr++) = usart->DR ;
+		*(dptr++) = usart->DR ;
 
 	}
 
